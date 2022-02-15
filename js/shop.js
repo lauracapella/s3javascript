@@ -64,24 +64,22 @@ var cart = [];
 var total = 0;
 var test = 'test';
 buy(3);
+calculateTotal();
+
 
 // Exercise 1
 function buy(id) {
-    var id = 1;
+    var id = 4;
     // 1. Loop for to the array products to get the item to add to cart
     for (var i = 0; i < products.length; i++) {
         if ((i + 1) === id){
             console.log('producto encontrado. id: ' + id);
             // 2. Add found product to the cartList array
             cartList.push(products[i]);
-            cartList.push(products[i+1]);
-
-            break;
         }
     }
     console.log(cartList[0]);
 }
-calculateTotal();
 
 // Exercise 2
 function cleanCart() {
@@ -92,13 +90,10 @@ function cleanCart() {
 // Exercise 3
 function calculateTotal() {
     // Calculate total price of the cart using the "cartList" array
-    const initialPrice = 0;
-    const sumPrices = cartList.reduce(
-        (previusPrice, currentPrice) => [previusPrice.price] + [currentPrice.price], initialPrice);
+    let sumPrices = cartList.reduce(
+        (acc, currentPrice) => (acc + currentPrice.price), 0);    
     console.log('precio total:' + sumPrices);
-
 }
-
 
 // Exercise 4
 function generateCart() {
