@@ -62,16 +62,28 @@ var cartList = [];
 var cart = [];
 
 var total = 0;
+var test = 'test';
+buy();
 
 // Exercise 1
 function buy(id) {
+    var id = 2;
     // 1. Loop for to the array products to get the item to add to cart
-    // 2. Add found product to the cartList array
+    for (var i = 0; i < products.length; i++) {
+        if ((i + 1) === id){
+            console.log('producto encontrado. id: ' + id);
+            // 2. Add found product to the cartList array
+            cartList.push(products[i]);
+            break;
+        }
+    }
+    console.log(cartList[0]);
 }
 
 // Exercise 2
 function cleanCart() {
-
+    cartList.length = 0
+    console.log(cartList[0]);
 }
 
 // Exercise 3
@@ -110,3 +122,5 @@ function removeFromCart(id) {
 function printCart() {
     // Fill the shopping cart modal manipulating the shopping cart dom
 }
+
+
