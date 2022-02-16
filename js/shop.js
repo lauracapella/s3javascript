@@ -62,14 +62,9 @@ var cartList = [];
 var cart = [];
 
 var total = 0;
-var test = 'test';
-buy(3);
-calculateTotal();
-
 
 // Exercise 1
 function buy(id) {
-    var id = 4;
     // 1. Loop for to the array products to get the item to add to cart
     for (var i = 0; i < products.length; i++) {
         if ((i + 1) === id){
@@ -77,7 +72,12 @@ function buy(id) {
             // 2. Add found product to the cartList array
             cartList.push(products[i]);
         }
+        //console.log(products[i].id);
     }
+    cartList.push(products[1]);
+    cartList.push(products[2]);
+    cartList.push(products[3]);
+
     console.log(cartList[0]);
 }
 
@@ -97,8 +97,35 @@ function calculateTotal() {
 
 // Exercise 4
 function generateCart() {
+    // includes indexOf
     // Using the "cartlist" array that contains all the items in the shopping cart, 
     // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
+    let contadorRepeticion = 1;
+    cartList.sort();
+
+    for(var j = 0; j < cartList.length; j++){
+        //let xxx = cartList.find(cartList => cartList.id === i;
+        //console.log('los j: ' + [cartList[j].id]);
+        //console.log(cartList[j]);
+        if (cartList[j+1].id === cartList[j].id){
+            console.log('Coincide la id : ' + [cartList[j].id]);
+            contadorRepeticion++;
+            let quantity = contadorRepeticion;
+        }else{
+            contadorRepeticion = 1;
+            cart.push(cartList[j]);
+            cart[j].quantity = quantity; 
+            // clone + añadir quantity = 1   
+            console.log(cart[j].id);
+        }
+        //.map()
+        console.log(cart.length);
+    }
+
+    for(var k = 0; k<cart.length; k++){
+        console.log(cart[k].id);
+
+    }
 }
 
 // Exercise 5
@@ -128,3 +155,6 @@ function printCart() {
 }
 
 
+buy();
+calculateTotal();
+generateCart();
