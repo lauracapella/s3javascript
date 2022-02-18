@@ -72,18 +72,13 @@ function buy(id) {
             // 2. Add found product to the cartList array
             cartList.push(products[i]);
         }
-        //console.log(products[i].id);
     }
-    cartList.push(products[1]);
-    cartList.push(products[2]);
-    cartList.push(products[3]);
-
-    console.log(cartList[0]);
+    calculateTotal();
 }
 
 // Exercise 2
 function cleanCart() {
-    cartList.length = 0
+    cartList.length = 0;
     //console.log(cartList[0]);
 }
 
@@ -93,44 +88,50 @@ function calculateTotal() {
     let sumPrices = cartList.reduce(
         (acc, currentPrice) => (acc + currentPrice.price), 0);    
     console.log('precio total:' + sumPrices);
+    generateCart();
 }
 
 // Exercise 4
-function generateCart() {
-    // includes indexOf
+function generateCart(quantity) {
     // Using the "cartlist" array that contains all the items in the shopping cart, 
     // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
-    let contadorRepeticion = 1;
-    cartList.sort();
-
+    // clone / spread + añadir quantity = 1 
     for(var j = 0; j < cartList.length; j++){
-        //let xxx = cartList.find(cartList => cartList.id === i;
-        //console.log('los j: ' + [cartList[j].id]);
-        //console.log(cartList[j]);
-        if (cartList[j+1].id === cartList[j].id){
-            console.log('Coincide la id : ' + [cartList[j].id]);
-            contadorRepeticion++;
-            let quantity = contadorRepeticion;
-        }else{
-            contadorRepeticion = 1;
+    console.log('nª elementos CARTLIST: ' + cartList.length + 'nª elementos CART: ' + cart.length);
+    var itemIndex = cart.indexOf(cartList[j]);
+    console.log('Esta ' + cartList[j].id + ' en CART? index: ' + itemIndex);
+        if(itemIndex < 0){
+            cartList[j].quantity=1;
             cart.push(cartList[j]);
-            cart[j].quantity = quantity; 
-            // clone + añadir quantity = 1   
-            console.log(cart[j].id);
+            console.log('Producto id: ' + cartList[j].id + 'quantity=' + cartList[j].quantity + ' añadido en CART. Cart lenght =' + cart.length);
+        }else{
+            console.log( 'producto ya existe en cart. id:');
+            for(var k = 0; k < cart.length; k++){
+                if (cartList[j].id === cart[k].id){
+                cart[k].quantity ++;
+                console.log('Producto id: ' + cart[k].id + 'quantity=' + cart[k].quantity + ' añadido en CART. Cart lenght =' + cart.length);
+                }
+            }
         }
-        //.map()
-        console.log(cart.length);
-    }
-
-    for(var k = 0; k<cart.length; k++){
-        console.log(cart[k].id);
-
-    }
+    }  
+    applyPromotionsCart();
 }
 
 // Exercise 5
 function applyPromotionsCart() {
     // Apply promotions to each item in the array "cart"
+    for (var z = 0; z < cart.length; z++){
+        cart[z].subtotal = cart[z].quantity * cart[z].price;
+        console.log('Subtotal:' + cart[z].subtotal);
+        if (cart[z].id === 1){
+            cart[z].price = 10;
+            console.log('Subtotal con descuento:' + cart[z].subtotal);
+
+        }else if((cart[z].id === 3) && (cart[z].quantity >= 10) ){
+            cart[z].price = 1.7;
+            console.log('Subtotal con descuento:' + (1.7 * cart[z].quantity));
+        }
+    }
 }
 
 
@@ -153,8 +154,3 @@ function removeFromCart(id) {
 function printCart() {
     // Fill the shopping cart modal manipulating the shopping cart dom
 }
-
-
-buy();
-calculateTotal();
-generateCart();
