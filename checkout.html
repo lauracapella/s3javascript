@@ -31,7 +31,6 @@
                 <h2 class="my-3 mx-5 bord shadow"><i class="fas fa-arrows-alt-h bg p-4 mr-4"></i>100% Return</h2>
             </div>
         </div>
-
         <div class="row mr-0">
             <div class="col-sm-6">
                 <h2 class="my-3 mx-5 bord shadow"><i class="far fa-thumbs-up bg p-4 mr-4"></i>Quality Assured</h2>
@@ -48,37 +47,44 @@
             <div class="col-sm-6">
                 <div class="mt-3 row">
                     <h5 class="my-auto">First Name :</h5>
-                    <input class="ml-3 name input rounded p-2" type="text" placeholder="First Name" />
+                    <input class="ml-3 name_p input rounded p-2" type="text" placeholder="First Name" />
+                    <div class="break"></div>
                     <p id="errorName">Numbers in the name are not valid</p>
                 </div>
                 <div class="mt-3 row ">
                     <h5 class="my-auto">Email :</h5>
-                    <input class="ml-3 input rounded p-2" type="email" placeholder="Email" />
+                    <input class="ml-3 input email rounded p-2" type="email" placeholder="Email" />
+                    <div class="break"></div>
+                    <p id="errorEmail">Email not valid!</p>
                 </div>
                 <div class="mt-3 row ">
                     <h5 class="my-auto">Address :</h5>
-                    <input class="ml-3 input rounded p-2" type="text" placeholder="Address" />
+                    <input class="ml-3 input name_a rounded p-2" type="text" placeholder="Address" />
+                    <div class="break"></div>
+                    <p id="errorNameAdr">Numbers in the adress are not valid</p>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="mt-3 row">
-                    <h5 class="my-auto name my-auto">Last Name :</h5>
-                    <input class="ml-3 input rounded p-2" type="text" placeholder="Last Name" />
+                    <h5 class="my-auto">Last Name :</h5>
+                    <input class="ml-3 input name_s rounded p-2" type="text" placeholder="Last Name" />
+                    <p id="errorNameSeg">Numbers in the second name are not valid</p>
                 </div>
                 <div class="mt-3 row">
                     <h5 class="my-auto my-auto">Password :</h5>
                     <input class="ml-3 input password rounded p-2" title="(4-8 characters)" type="password" minlength="4"
                         maxlength="8" placeholder="Password" />
+                    <div class="break"></div>
                     <p id="errorPassword">Enter a correct password</p>
                 </div>
                 <div class="mt-3 row">
                     <h5 class="my-auto my-auto">Phone Number :</h5>
-                    <input class="ml-3 phone input rounded p-2" type="number" placeholder="Phone No." />
+                    <input class="ml-3 phone input rounded p-2" type="tel" placeholder="Phone No." />
+                    <div class="break"></div>
                     <p id="errorPhone">Invalid phone number!!</p>
                 </div>
             </div>
         </div>
-
 
         <!-- Checkout ends here -->
         <!-- Buy button -->
