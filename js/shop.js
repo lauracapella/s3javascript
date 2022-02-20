@@ -66,14 +66,15 @@ var total = 0;
 // Exercise 1
 function buy(id) {
     // 1. Loop for to the array products to get the item to add to cart
-    for (var i = 0; i < products.length; i++) {
+    /* for (var i = 0; i < products.length; i++) {
         if ((i + 1) === id){
             console.log('producto encontrado. id: ' + id);
             // 2. Add found product to the cartList array
             cartList.push(products[i]);
         }
     }
-    calculateTotal();
+    calculateTotal(); */
+    addToCart(id);
 }
 
 // Exercise 2
@@ -88,7 +89,7 @@ function calculateTotal() {
     let sumPrices = cartList.reduce(
         (acc, currentPrice) => (acc + currentPrice.price), 0);    
     console.log('precio total:' + sumPrices);
-    generateCart();
+    //generateCart();
 }
 
 // Exercise 4
@@ -108,8 +109,10 @@ function generateCart(quantity) {
             console.log( 'producto ya existe en cart. id:');
             for(var k = 0; k < cart.length; k++){
                 if (cartList[j].id === cart[k].id){
+                    console.log( 'cartLis. id: ' + cartList[j].id + 'cart id: ' + cart[k].id);
+
                 cart[k].quantity ++;
-                console.log('Producto id: ' + cart[k].id + 'quantity=' + cart[k].quantity + ' añadido en CART. Cart lenght =' + cart.length);
+                console.log('Producto id: ' + cart[k].id + 'quantity: ' + cart[k].quantity + ' añadido en CART. Cart lenght =' + cart.length);
                 }
             }
         }
@@ -142,11 +145,51 @@ function addToCart(id) {
     // Refactor previous code in order to simplify it 
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cart array or update its quantity in case it has been added previously.
+    console.log('estoy en addToCart ' +  products.length + ' soy producto id:  ' + products[id].id );
+
+    for (var i = 0; i < products.length; i++) {
+        console.log('Recorro el array productos ' +  products[i].id );
+
+        if ((i + 1) === products[id].id){
+            console.log('producto encontrado. id: ' + products[i].id);
+            // 2. Add found product to the cartList array
+            cartList.push(products[i]);
+            console.log('carLit lenght: ' + cartList.length);
+
+            for(var j = 0; j < cartList.length; j++){
+                var itemIndex = cart.indexOf(cartList[j]);
+                console.log('indexOf: ' + itemIndex);
+                console.log('id: ' + cartList[j].id);
+
+                if(itemIndex < 0){
+                    cartList[j].quantity=1;
+                    cart.push(cartList[j]);
+                    console.log('Producto id: ' + cartList[j].id + 'quantity=' + cartList[j].quantity + ' añadido en CART. Cart lenght =' + cart.length);
+                }else{
+                    console.log( 'producto ya existe en cart. id:' + cartList[j].id);
+                    for(var k = 0; k < cart.length; k++){
+                        if (cartList[j].id === cart[k].id){
+                        cart[k].quantity ++;
+                        console.log('Producto id: ' + cart[k].id + 'quantity=' + cart[k].quantity + ' añadido en CART. Cart lenght =' + cart.length);
+                        }
+                    }
+                }
+            } 
+        }
+    }
+    calculateTotal();
+    //applyPromotionsCart();
 }
 
 // Exercise 8
 function removeFromCart(id) {
     // 1. Loop for to the array products to get the item to add to cart
+    const id = 2;
+    for(var k = 0; k < cart.length; k++){
+        if ((id === cart[k].id) && (cart[k].quantity == 1)){
+            let removeProduct = cart.splice(k, 1);
+        }
+    }
     // 2. Add found product to the cartList array
 }
 
