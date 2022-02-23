@@ -60,27 +60,28 @@ var cartList = [];
 
 // Improved version of cartList. Cart is an array of products (objects), but each one has a quantity field to define its quantity, so these products are not repeated.
 var cart = [];
-
 var total = 0;
+var discount = 0;
+var sumPricesDiscount = 0;
+var subtotal = 0;
 
 // Exercise 1
 function buy(id) {
     // 1. Loop for to the array products to get the item to add to cart
     /* for (var i = 0; i < products.length; i++) {
-        if ((i + 1) === id){
-            console.log('producto encontrado. id: ' + id);
+        if (id === products[i].id){
             // 2. Add found product to the cartList array
             cartList.push(products[i]);
+            generateCart(id);
+            break;
         }
-    }
-    calculateTotal(); */
+    } */
     addToCart(id);
 }
 
 // Exercise 2
 function cleanCart() {
     cartList.length = 0;
-    //console.log(cartList[0]);
 }
 
 // Exercise 3
@@ -88,52 +89,69 @@ function calculateTotal() {
     // Calculate total price of the cart using the "cartList" array
     let sumPrices = cartList.reduce(
         (acc, currentPrice) => (acc + currentPrice.price), 0);    
-    console.log('precio total:' + sumPrices);
-    //generateCart();
+    console.log('PRECIO TOTAL:' + sumPrices);
+
+    sumPricesDiscount = sumPrices - discount;
+    console.log('PRECIO TOTAL descuento:' + sumPricesDiscount);
 }
 
 // Exercise 4
-function generateCart(quantity) {
+function generateCart(id) {
     // Using the "cartlist" array that contains all the items in the shopping cart, 
     // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
-    // clone / spread + añadir quantity = 1 
+    // clone / spread + añadir quantity = 1
     for(var j = 0; j < cartList.length; j++){
-    console.log('nª elementos CARTLIST: ' + cartList.length + 'nª elementos CART: ' + cart.length);
-    var itemIndex = cart.indexOf(cartList[j]);
-    console.log('Esta ' + cartList[j].id + ' en CART? index: ' + itemIndex);
-        if(itemIndex < 0){
-            cartList[j].quantity=1;
-            cart.push(cartList[j]);
-            console.log('Producto id: ' + cartList[j].id + 'quantity=' + cartList[j].quantity + ' añadido en CART. Cart lenght =' + cart.length);
-        }else{
-            console.log( 'producto ya existe en cart. id:');
-            for(var k = 0; k < cart.length; k++){
-                if (cartList[j].id === cart[k].id){
-                    console.log( 'cartLis. id: ' + cartList[j].id + 'cart id: ' + cart[k].id);
-
-                cart[k].quantity ++;
-                console.log('Producto id: ' + cart[k].id + 'quantity: ' + cart[k].quantity + ' añadido en CART. Cart lenght =' + cart.length);
+        if(cartList[j].id === id){
+            //console.log('Busco en CART LIST producto id: ' + cartList[j].id );
+            //console.log('CARTLIST length: ' + cartList.length + ' CART length: ' + cart.length);
+            var itemIndex = cart.indexOf(cartList[j]);
+            console.log('Esta ' + cartList[j].id + ' en CART? index: ' + itemIndex);
+                if(itemIndex < 0){
+                    cartList[j].quantity=1;
+                    cartList[j].subtotal = cartList[j].price;
+                    cart.push(cartList[j]);
+                    console.log('Producto id: ' + cartList[j].id + ' Quantity= ' + cartList[j].quantity + ' añadido en CART. Cart lenght =' + cart.length);
+                    //console.log('subtotal producto' + subtotal);
+                    console.log('Subtotal: ' + cartList[j].subtotal);    
+                    break;
+                }else{
+                    console.log( 'producto ya existe en cart. id: '+ cartList[j].id);
+                    for(var k = 0; k < cart.length; k++){
+                        if (id === cart[k].id){
+                        cart[k].quantity ++;
+                        cart[k].subtotal = cart[k].price * cart[k].quantity;
+                        console.log('Producto en CART id: ' + cart[k].id + 'quantity: ' + cart[k].quantity + ' añadido en CART. Cart lenght =' + cart.length);
+                        console.log('Subtotal: ' + cart[k].subtotal);   
+                    }
+                    }
+                    break;
                 }
             }
         }
-    }  
-    applyPromotionsCart();
+applyPromotionsCart();
+calculateTotal();
 }
 
 // Exercise 5
 function applyPromotionsCart() {
     // Apply promotions to each item in the array "cart"
+    //let discount = 0;
     for (var z = 0; z < cart.length; z++){
-        cart[z].subtotal = cart[z].quantity * cart[z].price;
-        console.log('Subtotal:' + cart[z].subtotal);
-        if (cart[z].id === 1){
-            cart[z].price = 10;
-            console.log('Subtotal con descuento:' + cart[z].subtotal);
+        //console.log('Subtotal:' + cart[z].subtotal);
+        //let discount = 0;
+        if (cart[z].id === 1 && cart[z].quantity >= 3){
+            const precioAceitePromo = 10;
+            cart[z].subtotalWithDiscount = cart[z].quantity * precioAceitePromo;
+            console.log('Total con descuento:' + cart[z].subtotalWithDiscount);
+            discount = cart[z].subtotal - cart[z].subtotalWithDiscount;
 
         }else if((cart[z].id === 3) && (cart[z].quantity >= 10) ){
             cart[z].price = 1.7;
-            console.log('Subtotal con descuento:' + (1.7 * cart[z].quantity));
+            console.log('Total con descuento:' + (1.7 * cart[z].quantity));
+            cart[z].subtotalWithDiscount = cart[z].subtotalWithDiscount * 1,7;
+            discount = cart[z].subtotal - cart[z].subtotalWithDiscount;
         }
+        console.log('discount' + discount);
     }
 }
 
@@ -145,49 +163,60 @@ function addToCart(id) {
     // Refactor previous code in order to simplify it 
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cart array or update its quantity in case it has been added previously.
-    console.log('estoy en addToCart ' +  products.length + ' soy producto id:  ' + products[id].id );
+    //console.log('estoy en addToCart ' +  products.length + ' soy producto id:  ' + products[id - 1].id );
 
     for (var i = 0; i < products.length; i++) {
-        console.log('Recorro el array productos ' +  products[i].id );
+        //console.log('Recorro el array PRODUCTOS ' +  products[i].id );
 
-        if ((i + 1) === products[id].id){
-            console.log('producto encontrado. id: ' + products[i].id);
+        if (id === products[i].id){
+            console.log('producto comprado id: ' + products[i].id);
+
             // 2. Add found product to the cartList array
             cartList.push(products[i]);
-            console.log('carLit lenght: ' + cartList.length);
 
             for(var j = 0; j < cartList.length; j++){
-                var itemIndex = cart.indexOf(cartList[j]);
-                console.log('indexOf: ' + itemIndex);
-                console.log('id: ' + cartList[j].id);
+                //const quantity = 1;
+                //const subtotal = cartList[j].price * quantity;
+                //cartList[j].subtotal = subtotal;
+                console.log('subtotal producto' + subtotal);
 
+                if(products[i].id === cartList[j].id){
+                //console.log('Recorro el array CART LIST ' +  cartList[j].id );
+                //console.log('id de cartList[j] : ' + cartList[j].id);
+                var itemIndex = cart.indexOf(cartList[j]);
+                //console.log('indexOf: ' + itemIndex);
                 if(itemIndex < 0){
                     cartList[j].quantity=1;
+                    cartList[j].subtotal = cartList[j].price;
                     cart.push(cartList[j]);
-                    console.log('Producto id: ' + cartList[j].id + 'quantity=' + cartList[j].quantity + ' añadido en CART. Cart lenght =' + cart.length);
+                    console.log('Producto id ' + cartList[j].id + ' no existe en CART. Quantity= ' + cartList[j].quantity + ' Cart lenght =' + cart.length);
                 }else{
-                    console.log( 'producto ya existe en cart. id:' + cartList[j].id);
+                    //console.log( 'Producto ya existe en cart. id:' + cartList[j].id);
                     for(var k = 0; k < cart.length; k++){
                         if (cartList[j].id === cart[k].id){
                         cart[k].quantity ++;
-                        console.log('Producto id: ' + cart[k].id + 'quantity=' + cart[k].quantity + ' añadido en CART. Cart lenght =' + cart.length);
+                        cart[k].subtotal = cart[k].price * cart[k].quantity;
+                        console.log('Producto Cart id: ' + cart[k].id + ' yq existe en CART. Qquantity= ' + cart[k].quantity + ' añadido en CART. Cart lenght =' + cart.length);
                         }
                     }
+                    break;
+                }
                 }
             } 
         }
     }
+    applyPromotionsCart();
     calculateTotal();
-    //applyPromotionsCart();
 }
 
 // Exercise 8
 function removeFromCart(id) {
     // 1. Loop for to the array products to get the item to add to cart
-    const id = 2;
     for(var k = 0; k < cart.length; k++){
         if ((id === cart[k].id) && (cart[k].quantity == 1)){
             let removeProduct = cart.splice(k, 1);
+        }else{
+            cart[k].quantity--;
         }
     }
     // 2. Add found product to the cartList array
@@ -196,4 +225,18 @@ function removeFromCart(id) {
 // Exercise 9
 function printCart() {
     // Fill the shopping cart modal manipulating the shopping cart dom
+    const productCard = card.querySelector('.card').textContent;
+    const productTitle = card.querySelector('.card-title').textContent;
+    const productPrice = card.querySelector('.card-text').text.content;
+    console.log('producto en printCart: ' + productTitle);
+
+    const productToCart = addToCartButton.addEventListener()
+
+    /* function function1() {
+        var ul = document.getElementById("list");
+        var li = document.createElement("li");
+        li.appendChild(document.createTextNode("Four"));
+        ul.appendChild(li);
+      } */
+
 }
